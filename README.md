@@ -1,3 +1,3 @@
 # peroose
 
-A pyhton-based command line tool to peruse ROOT files.
+A python-based command line tool to peruse ROOT (https://root.cern.ch/) files.
