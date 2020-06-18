@@ -1,8 +1,13 @@
 from setuptools import setup
 
+with open("README.md", "r") as readme:
+    long_description = readme.read()
+
 setup(name="peroose",
       version="0.1",
       description="A python-based command line tool to peruse ROOT files.",
+      long_description=long_description,
+      long_description_content_type="text/markdown",
       url="https://github.com/davehadley/peroose",
       author="David Hadley",
       author_email="d.r.hadley@warwick.ac.uk",
