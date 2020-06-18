@@ -13,7 +13,7 @@ setup(name="peroose",
       extras_require={
           "uproot": "uproot>=3.11.7"
       },
-      zip_safe=False,
+      zip_safe=True,
       classifiers=[
           "Programming Language :: Python :: 3 :: Only",
           "License :: OSI Approved :: MIT License",
