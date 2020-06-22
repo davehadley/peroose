@@ -9,7 +9,7 @@ from IPython import start_ipython
 from traitlets.config import get_config
 
 import peroose
-from peroose.fileio import IOMode, loadtree
+from peroose.fileio import IOMode, loadtree, loadfile
 
 # Import modules the user is very likely to want to use
 np = None

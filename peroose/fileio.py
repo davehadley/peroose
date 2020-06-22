@@ -7,11 +7,20 @@ class IOMode(Enum):
     uproot = "uproot"
 
 
-def loadtree(filelist: List[str], tree: Optional[str], mode: IOMode = IOMode.ROOT) -> Union[Any, dict, None]:
+def loadtree(filelist: List[str], tree: Optional[str], mode: IOMode = IOMode.ROOT) -> Union[Any, None]:
     if (mode == IOMode.ROOT):
         return _loadtree_root(filelist, tree)
     elif (mode == IOMode.uproot):
         return _loadtree_uproot(filelist, tree)
+
+
+def loadfile(filename: str, mode: IOMode = IOMode.ROOT) -> Union[Any, dict, None]:
+    if (mode == IOMode.ROOT):
+        import ROOT
+        return ROOT.TFile(filename)
+    elif (mode == IOMode.uproot):
+        import uproot
+        return uproot.open(filename)
 
 
 def _loadtree_root(filelist: List[str], tree: Optional[str]) -> Optional[Any]:
