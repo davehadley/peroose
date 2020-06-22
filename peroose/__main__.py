@@ -9,7 +9,7 @@ from IPython import start_ipython
 from traitlets.config import get_config
 
 import peroose
-from peroose.fileio import IOMode, loadtree
+from peroose.fileio import IOMode, loadtree, loadfile
 
 # Import modules the user is very likely to want to use
 np = None
@@ -58,10 +58,13 @@ if __name__ == "__main__":
         'print(header)',
         '''with contextlib.suppress(ImportError):
             import ROOT
+            from ROOT import TBrowser, TFile
         ''',
         'filelist = _findfiles(args.input_files)',
         'tree = loadtree(filelist, args.tree, args.io)',
+        'tfile = None if len(filelist)==0 else loadfile(filelist[0], args.io)',
         'print(f"{len(filelist)} files found.")',
+        'print(f"tfile = {tfile}")',
         'print(f"tree = {tree}")'
     ]
     sys.exit(start_ipython([], config=config, user_ns={**locals(), **globals()}))
