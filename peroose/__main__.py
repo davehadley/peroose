@@ -53,18 +53,20 @@ if __name__ == "__main__":
     header = f"{__package__} ({peroose.__version__}) [{peroose.url}]"
     config = get_config()
     config.InteractiveShellApp.display_banner = False
-    config.InteractiveShellApp.exec_lines = [
+    exec_lines = [
         # ROOT needed to be imported inside the ipython shell, otherwise GUI won't work.
-        'print(header)',
-        '''with contextlib.suppress(ImportError):
+        "print(header)",
+        """with contextlib.suppress(ImportError):
             import ROOT
             from ROOT import TBrowser, TFile
-        ''',
-        'filelist = _findfiles(args.input_files)',
-        'tree = loadtree(filelist, args.tree, args.io)',
-        'tfile = None if len(filelist)==0 else loadfile(filelist[0], args.io)',
-        'print(f"{len(filelist)} files found.")',
-        'print(f"tfile = {tfile}")',
-        'print(f"tree = {tree}")'
+        """,
+        "filelist = _findfiles(args.input_files)",
+        "tree = loadtree(filelist, args.tree, args.io)",
+        "tfile = None if len(filelist)==0 else loadfile(filelist[0], args.io)",
+        "print(f'{len(filelist)} files found.')",
+        "print(f'tfile = {tfile}')",
+        "print(f'tree = {tree}')"
     ]
+    config.InteractiveShellApp.exec_lines = exec_lines
+    config.InteractiveShell.confirm_exit = False
     sys.exit(start_ipython([], config=config, user_ns={**locals(), **globals()}))
