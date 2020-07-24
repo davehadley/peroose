@@ -12,7 +12,7 @@ pip install peroose
 
 To inspect a ROOT file:
 ```bash
-python -m peroose path/to/root/files/*.py
+python -m peroose path/to/root/files/*.root
 ```
 
 This will load the TTree (if the file contains one) and start an IPython

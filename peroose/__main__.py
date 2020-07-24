@@ -35,7 +35,7 @@ def _findfiles(patterns: Iterable[str]) -> List[str]:
 def _parsecml() -> argparse.Namespace:
     parser = argparse.ArgumentParser("peroose")
     parser.add_argument("input_files",
-                        nargs="+",
+                        nargs="*",
                         type=str,
                         help="Input ROOT files. Unix shell-style glob patterns are allowed (eg \"*.root\").")
     parser.add_argument("--tree", type=str, default=None,
