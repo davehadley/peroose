@@ -7,4 +7,5 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-pip install --no-cache-dir --upgrade "peroose>=${version}" && python -m unittest discover tests
+pip install --no-cache-dir --upgrade "peroose>=${version}" #&& python -m unittest discover tests
+peroose
