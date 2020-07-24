@@ -1,10 +1,15 @@
 from setuptools import setup
 
+with open("peroose/_version.py") as fp:
+    version = {}
+    exec(fp.read(), version)
+    version = version["__version__"]
+
 with open("README.md", "r") as readme:
     long_description = readme.read()
 
 setup(name="peroose",
-      version="0.2",
+      version=version,
       description="A python-based command line tool to peruse ROOT files.",
       long_description=long_description,
       long_description_content_type="text/markdown",

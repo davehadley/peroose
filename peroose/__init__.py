@@ -9,7 +9,10 @@ python -m peroose --help
 
 """
 
-__version__ = "0.3.0"
+from peroose import _version
+
+__version__ = _version.__version__
 __license__ = "MIT"
 __author__ = "David Hadley"
+
 url = "https://github.com/davehadley/peroose"
