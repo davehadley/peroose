@@ -48,7 +48,7 @@ def _loadtree_uproot(filelist: List[str], tree: str) -> Optional[dict]:
         tfile = uproot.open(fname)
         if tree is None:
             items = tfile.allitems(filterclass=lambda cls: issubclass(cls, uproot.tree.TTreeMethods))
-            tree = max(items, key=lambda i: len(i[1]))[0]
+            tree = max(items, key=lambda i: len(i[1]), default=[None])[0]
         if tree is not None:
             if tree in tfile:
                 chain.append(fname)
