@@ -1,24 +1,26 @@
 from enum import Enum
-from typing import Union, List, Optional, Any
+from typing import Union, List, Optional, Any, Generator
 
 
 class IOMode(Enum):
     ROOT = "ROOT"
     uproot = "uproot"
+    pandas = "pandas"
+    numpy = "numpy"
 
 
 def loadtree(filelist: List[str], tree: Optional[str], mode: IOMode = IOMode.ROOT) -> Union[Any, None]:
     if (mode == IOMode.ROOT):
         return _loadtree_root(filelist, tree)
-    elif (mode == IOMode.uproot):
-        return _loadtree_uproot(filelist, tree)
+    else:
+        return _loadtree_uproot(filelist, tree, mode)
 
 
 def loadfile(filename: str, mode: IOMode = IOMode.ROOT) -> Union[Any, dict, None]:
     if (mode == IOMode.ROOT):
         import ROOT
         return ROOT.TFile(filename)
-    elif (mode == IOMode.uproot):
+    else:
         import uproot
         return uproot.open(filename)
 
@@ -41,7 +43,7 @@ def _loadtree_root(filelist: List[str], tree: Optional[str]) -> Optional[Any]:
     return chain
 
 
-def _loadtree_uproot(filelist: List[str], tree: str) -> Optional[dict]:
+def _loadtree_uproot(filelist: List[str], tree: str, mode: IOMode) -> Union[dict, Generator, None]:
     import uproot
     chain = []
     for fname in filelist:
@@ -52,4 +54,9 @@ def _loadtree_uproot(filelist: List[str], tree: str) -> Optional[dict]:
         if tree is not None:
             if tree in tfile:
                 chain.append(fname)
-    return None if len(chain) == 0 else uproot.lazyarrays(chain, tree)
+    if len(chain) == 0:
+        return None
+    elif mode == IOMode.uproot or mode == IOMode.numpy:
+        return uproot.lazyarrays(chain, tree)
+    else:
+        return uproot.pandas.iterate(chain, tree)
