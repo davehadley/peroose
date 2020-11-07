@@ -25,6 +25,9 @@ uproot = "^3.11.7"
 [tool.poetry.extras]
 uproot = ["uproot"]
 
+[tool.poetry.scripts]
+peroose = "peroose.__main__:main"
+
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 pre-commit = "^2.8.2"

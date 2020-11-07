@@ -59,7 +59,8 @@ def _parsecml() -> argparse.Namespace:
     return args
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
+def main():
     args = _parsecml()
     filelist = _findfiles(args.input_files)
     header = f"{__package__} ({peroose.__version__}) [{peroose.url}]"
@@ -82,3 +83,7 @@ if __name__ == "__main__":
     config.InteractiveShellApp.exec_lines = exec_lines
     config.InteractiveShell.confirm_exit = False
     sys.exit(start_ipython([], config=config, user_ns={**locals(), **globals()}))
+
+
+if __name__ == "__main__":
+    main()
