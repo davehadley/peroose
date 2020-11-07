@@ -1,6 +1,7 @@
 name: peroose
 channels:
   - defaults
+  - conda-forge
 dependencies:
   - python=3.6
   - poetry>=1.1
