@@ -1,5 +1,10 @@
 # peroose
 
+[![Github Build Status](https://img.shields.io/github/workflow/status/davehadley/peroose/ci?label=Github%20Build)](https://github.com/davehadley/peroose/actions?query=workflow%3Aci)
+[![PyPI](https://img.shields.io/pypi/v/peroose)](https://pypi.org/project/peroose/)
+[![License: MIT](https://img.shields.io/pypi/l/peroose)](https://github.com/davehadley/peroose/blob/master/LICENSE.txt)
+[![Last Commit](https://img.shields.io/github/last-commit/davehadley/peroose/dev)](https://github.com/davehadley/peroose)
+
 A python-based command line tool to peruse ROOT (https://root.cern.ch/) files.
 
 ## Installation
