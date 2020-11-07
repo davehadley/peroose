@@ -50,10 +50,13 @@ def _parsecml() -> argparse.Namespace:
         "--io",
         type=IOMode,
         choices=list(IOMode),
-        default=IOMode.ROOT,
+        default=None,
         help="IO method to use.",
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.io is None:
+        args.io = IOMode.ROOT if ROOT else IOMode.uproot
+    return args
 
 
 if __name__ == "__main__":
