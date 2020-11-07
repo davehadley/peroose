@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Union, List, Optional, Any, Generator
+from typing import Any, Generator, List, Optional, Union
 
 
 class IOMode(Enum):
@@ -9,30 +9,38 @@ class IOMode(Enum):
     numpy = "numpy"
 
 
-def loadtree(filelist: List[str], tree: Optional[str], mode: IOMode = IOMode.ROOT) -> Union[Any, None]:
-    if (mode == IOMode.ROOT):
+def loadtree(
+    filelist: List[str], tree: Optional[str], mode: IOMode = IOMode.ROOT
+) -> Union[Any, None]:
+    if mode == IOMode.ROOT:
         return _loadtree_root(filelist, tree)
     else:
         return _loadtree_uproot(filelist, tree, mode)
 
 
 def loadfile(filename: str, mode: IOMode = IOMode.ROOT) -> Union[Any, dict, None]:
-    if (mode == IOMode.ROOT):
+    if mode == IOMode.ROOT:
         import ROOT
+
         return ROOT.TFile(filename)
     else:
         import uproot
+
         return uproot.open(filename)
 
 
 def _loadtree_root(filelist: List[str], tree: Optional[str]) -> Optional[Any]:
     import ROOT
+
     chain = None
     for fname in filelist:
         tfile = ROOT.TFile(fname)
         if tree is None:
-            trees = [(key.GetName(), key.ReadObj().GetEntriesFast()) for key in tfile.GetListOfKeys() if
-                     key.GetClassName() == "TTree"]
+            trees = [
+                (key.GetName(), key.ReadObj().GetEntriesFast())
+                for key in tfile.GetListOfKeys()
+                if key.GetClassName() == "TTree"
+            ]
             tree = None if len(trees) == 0 else max(trees, key=lambda p: p[1])[0]
         if tree is not None:
             t = tfile.Get(tree)
@@ -43,13 +51,18 @@ def _loadtree_root(filelist: List[str], tree: Optional[str]) -> Optional[Any]:
     return chain
 
 
-def _loadtree_uproot(filelist: List[str], tree: str, mode: IOMode) -> Union[dict, Generator, None]:
+def _loadtree_uproot(
+    filelist: List[str], tree: Optional[str], mode: IOMode
+) -> Union[dict, Generator, None]:
     import uproot
+
     chain = []
     for fname in filelist:
         tfile = uproot.open(fname)
         if tree is None:
-            items = tfile.allitems(filterclass=lambda cls: issubclass(cls, uproot.tree.TTreeMethods))
+            items = tfile.allitems(
+                filterclass=lambda cls: issubclass(cls, uproot.tree.TTreeMethods)
+            )
             tree = max(items, key=lambda i: len(i[1]), default=[None])[0]
         if tree is not None:
             if tree in tfile:
