@@ -20,7 +20,7 @@ classifiers=[
 [tool.poetry.dependencies]
 python = "^3.6.1"
 ipython = "^7.15.0"
-uproot = { version="^3.11.7", optional=true }
+uproot = "^3.11.7"
 
 [tool.poetry.extras]
 uproot = ["uproot"]
