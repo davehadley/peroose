@@ -87,7 +87,6 @@ def main():
         config.InteractiveShellApp.code_to_run = args.command
     config.InteractiveShellApp.exec_lines = exec_lines
     config.InteractiveShell.confirm_exit = False
-    config.InteractiveShell.exit_ignore = False
     sys.exit(start_ipython([], config=config, user_ns={**locals(), **globals()}))
 
 
