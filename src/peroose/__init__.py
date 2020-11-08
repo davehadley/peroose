@@ -11,7 +11,7 @@ python -m peroose --help
 
 from peroose import _version
 
-__version__ = _version.__version__
+__version__ = _version.version(__name__)
 __license__ = "MIT"
 __author__ = "David Hadley"
 
