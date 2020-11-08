@@ -53,6 +53,9 @@ def _parsecml() -> argparse.Namespace:
         default=None,
         help="IO method to use.",
     )
+    parser.add_argument(
+        "--command", "-c", type=str, default=None, help="Execute this command and exit."
+    )
     args = parser.parse_args()
     if args.io is None:
         args.io = IOMode.ROOT if ROOT else IOMode.uproot
@@ -80,8 +83,11 @@ def main():
         "print(f'tfile = {tfile}')",
         "print(f'tree = {tree}')",
     ]
+    if args.command:
+        config.InteractiveShellApp.code_to_run = args.command
     config.InteractiveShellApp.exec_lines = exec_lines
     config.InteractiveShell.confirm_exit = False
+    config.InteractiveShell.exit_ignore = False
     sys.exit(start_ipython([], config=config, user_ns={**locals(), **globals()}))
 
 
