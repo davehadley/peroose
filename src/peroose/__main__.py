@@ -1,15 +1,15 @@
-import contextlib
 import argparse
+import contextlib
 import glob
 import os
 import sys
-from typing import List, Iterable
+from typing import Iterable, List
 
 from IPython import start_ipython
 from traitlets.config import get_config
 
 import peroose
-from peroose.fileio import IOMode, loadtree, loadfile
+from peroose.fileio import IOMode, loadfile, loadtree  # noqa
 
 # Import modules the user is very likely to want to use
 np = None
@@ -17,11 +17,11 @@ plt = None
 uproot = None
 ROOT = None
 with contextlib.suppress(ImportError):
-    import numpy as np
+    import numpy as np  # type: ignore # noqa
 with contextlib.suppress(ImportError):
-    import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt  # type: ignore # noqa
 with contextlib.suppress(ImportError):
-    import uproot
+    import uproot  # type: ignore # noqa
 
 
 def _matchfilepattern(pattern: str) -> List[str]:
@@ -34,20 +34,36 @@ def _findfiles(patterns: Iterable[str]) -> List[str]:
 
 def _parsecml() -> argparse.Namespace:
     parser = argparse.ArgumentParser("peroose")
-    parser.add_argument("input_files",
-                        nargs="*",
-                        type=str,
-                        help="Input ROOT files. Unix shell-style glob patterns are allowed (eg \"*.root\").")
-    parser.add_argument("--tree", type=str, default=None,
-                        help="Name of tree to load. If not, specified, a tree will automatically selected."
-                        )
-    parser.add_argument("--io", type=IOMode, choices=list(IOMode), default=IOMode.ROOT,
-                        help="IO method to use."
-                        )
-    return parser.parse_args()
+    parser.add_argument(
+        "input_files",
+        nargs="*",
+        type=str,
+        help='Input ROOT files. Unix shell-style glob patterns are allowed (eg "*.root").',
+    )
+    parser.add_argument(
+        "--tree",
+        type=str,
+        default=None,
+        help="Name of tree to load. If not, specified, a tree will automatically selected.",
+    )
+    parser.add_argument(
+        "--io",
+        type=IOMode,
+        choices=list(IOMode),
+        default=None,
+        help="IO method to use.",
+    )
+    parser.add_argument(
+        "--command", "-c", type=str, default=None, help="Execute this command and exit."
+    )
+    args = parser.parse_args()
+    if args.io is None:
+        args.io = IOMode.ROOT if ROOT else IOMode.uproot
+    return args
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
+def main():
     args = _parsecml()
     filelist = _findfiles(args.input_files)
     header = f"{__package__} ({peroose.__version__}) [{peroose.url}]"
@@ -65,8 +81,14 @@ if __name__ == "__main__":
         "tfile = None if len(filelist)==0 else loadfile(filelist[0], args.io)",
         "print(f'{len(filelist)} files found.')",
         "print(f'tfile = {tfile}')",
-        "print(f'tree = {tree}')"
+        "print(f'tree = {tree}')",
     ]
+    if args.command:
+        config.InteractiveShellApp.code_to_run = args.command
     config.InteractiveShellApp.exec_lines = exec_lines
     config.InteractiveShell.confirm_exit = False
     sys.exit(start_ipython([], config=config, user_ns={**locals(), **globals()}))
+
+
+if __name__ == "__main__":
+    main()
