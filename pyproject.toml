@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "peroose"
-version = "0.4.0"
+version = "0.4.1"
 description = "A python-based command line tool to peruse ROOT files."
 license = "MIT"
 authors = ["David Hadley <davehadley@users.noreply.github.com>"]
@@ -21,9 +21,6 @@ classifiers=[
 python = "^3.6.1"
 ipython = "^7.15.0"
 uproot = "^3.11.7"
-
-[tool.poetry.extras]
-uproot = ["uproot"]
 
 [tool.poetry.scripts]
 peroose = "peroose.__main__:main"
